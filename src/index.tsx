@@ -3,13 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ChakraProvider, extendTheme, type ThemeConfig } from '@chakra-ui/react'
+
+
+const theme = extendTheme({
+    fonts: {
+        heading: `'Montserrat', sans-serif`,
+        body: `'Body Font Name', sans-serif`,
+    },
+    styles: {
+        global: () => ({
+            body: {
+                bg: "",
+            },
+        }),
+    },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+      <ChakraProvider theme = {theme}>
     <App />
+          </ChakraProvider>
   </React.StrictMode>
 );
 
