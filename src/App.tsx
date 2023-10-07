@@ -3,33 +3,56 @@ import './App.css';
 import {Box, Heading, Flex, Button, Link, Grid, Text, GridItem} from "@chakra-ui/react";
 import Visualiser from "./components/Visualiser";
 import BubbleSort from "./algorithms/BubbleSort";
+import {resolve} from "dns/promises";
 function App() {
     const [data, setData] = useState([100,200,300,500,400,50,20,500,550,600]);
-
+    const maxValue = Math.max(...data.map(o => o), 0);
     const [sorting, setSorting] = useState(false);
+    const colorArray: number[] = Array(data.length).fill(0)
+    const [color , setColor] = useState([...colorArray]);
+    const barColors=['#C9ADA7', '#ADA7C9', '#A7C9AD']
+    const BubbleSort = async () => {
+        await new Promise<void>((resolve, reject) => {
+            setTimeout(async () => {
+                let colorArrayOriginal = [...color];
+                let newArr = [...data];
+                let sorted = true;
 
-    const BubbleSort = ()=>{
-        setTimeout(() => {
-             let newArr = [...data];
-            for (let i = 0; i < data.length - 1; i++) {
-                setTimeout(() => {
-                    for (let j = i + 1; j < data.length; j++) {
-                        if (newArr[i] > newArr[j]) {
-                            let temp = newArr[i];
-                            newArr[i] = newArr[j];
-                            newArr[j] = temp;
+                for (let i = 0; i < data.length - 1; i++) {
+                    console.log('checking this index' + i)
+                    for (let j = 0; j < data.length - i - 1; j++) {
+                        let newColorArray = [...colorArrayOriginal];
+                        newColorArray[j] = 1;
+                        newColorArray[j + 1] = 1;
+                        setColor([...newColorArray]);
+                        if (newArr[j] > newArr[j + 1]) {
+                            let temp = newArr[j];
+                            newArr[j] = newArr[j + 1];
+                            newArr[j + 1] = temp;
+
+
                             let newStep = [...newArr];
-                            setTimeout(() => {
-                                setData([...newStep]);
-                            }, j * 100);
+
+                            await new Promise(resolve => setTimeout(resolve, j * 150));
+
+
+                            setData([...newStep]);
+                            sorted = false;
                         }
 
                     }
-                }, i * 1000);
-            }
-        }, 500);
 
+                    if (sorted) {
+                        resolve();
+                        break;
+                    }
+                }
+                console.log('I am here');
+                setColor(Array(data.length).fill(2));
+            }, 500);
+        });
     };
+
     return (
         <Grid
             h={"100vh"}
@@ -54,7 +77,7 @@ function App() {
                 </Flex>
             </GridItem>
             <GridItem  rowSpan={5} colSpan={2} bg='#4A4E69' borderRadius={"20px"} >
-                <Visualiser data={data}></Visualiser>
+                <Visualiser data={data} maxValue={maxValue} colorArray={color} barColor={barColors}></Visualiser>
             </GridItem>
 
         </Grid>

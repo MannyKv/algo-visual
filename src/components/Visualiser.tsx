@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
-const Visualiser: React.FC<{data: number[]}> = ({ data }) => {
+const Visualiser: React.FC<{data: number[], maxValue: number, colorArray:number[], barColor: string[]}> = ({ data , maxValue, colorArray,barColor  }) => {
 
     return (
         <Box
@@ -13,7 +13,7 @@ const Visualiser: React.FC<{data: number[]}> = ({ data }) => {
             overflow={"auto"}
             flex="1">
 
-            {data.map((d:number)=>{
+            {data.map((d:number,index:number)=>{
                 return(
                     <Box
                         display={"flex"}
@@ -27,8 +27,8 @@ const Visualiser: React.FC<{data: number[]}> = ({ data }) => {
                         <p>{d}</p>
                         <Box
                             roundedTop={"20px"}
-                            bg={"#C9ADA7"}
-                            style={{ height: `${d}px` }}
+                            bg={barColor[colorArray[index]]}
+                            style={{ height: `${d%(maxValue+1)}px` }}
                         ></Box>
                     </Box>
                 );
