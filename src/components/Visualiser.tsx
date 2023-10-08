@@ -10,7 +10,7 @@ const Visualiser: React.FC<{data: number[], maxValue: number, colorArray:number[
             gridAutoColumns={"auto"}
             minH={"full"}
            padding={"10px"}
-            overflow={"auto"}
+            overflow={"hidden"}
             flex="1">
 
             {data.map((d:number,index:number)=>{
@@ -28,7 +28,7 @@ const Visualiser: React.FC<{data: number[], maxValue: number, colorArray:number[
                         <Box
                             roundedTop={"20px"}
                             bg={barColor[colorArray[index]]}
-                            style={{ height: `${d%(maxValue+1)}px` }}
+                            style={{ height: `${d%(maxValue+1)/(maxValue+1)*500}px` }}
                         ></Box>
                     </Box>
                 );

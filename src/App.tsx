@@ -5,7 +5,7 @@ import Visualiser from "./components/Visualiser";
 import BubbleSort from "./algorithms/BubbleSort";
 import {resolve} from "dns/promises";
 function App() {
-    const [data, setData] = useState([100,200,300,500,400,50,20,500,550,600]);
+    const [data, setData] = useState([100,200,300,500,400,50,20,500,550,600,900,100,100,200,300,500,400,50,]);
     const maxValue = Math.max(...data.map(o => o), 0);
     const [sorting, setSorting] = useState(false);
     const colorArray: number[] = Array(data.length).fill(0)
@@ -30,10 +30,9 @@ function App() {
                             newArr[j] = newArr[j + 1];
                             newArr[j + 1] = temp;
 
-
                             let newStep = [...newArr];
 
-                            await new Promise(resolve => setTimeout(resolve, j * 150));
+                            await new Promise(resolve => setTimeout(resolve, j * 10));
 
 
                             setData([...newStep]);
